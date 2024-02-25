@@ -1,6 +1,12 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neighbosphere/Home.dart';
+import 'package:neighbosphere/SignIn.dart';
 
 class RegisterSociety extends StatefulWidget {
   const RegisterSociety({super.key});
@@ -10,6 +16,56 @@ class RegisterSociety extends StatefulWidget {
 }
 
 class _RegisterSocietyState extends State<RegisterSociety> {
+  addSociety(String society,String address,String contact){
+    final random = Random();
+    String id = String.fromCharCodes(Iterable.generate(
+        5, (_) => 'abcdefghijklmnopqrstuvwxyz0123456789'.codeUnitAt(random.nextInt(36))));
+
+    FirebaseFirestore.instance.collection("Society").doc(id).set(
+        {
+          "id":id,
+          "address":address,
+          "secretary_contact":contact,
+          "name":society
+        }).then((value){
+      print('Data inserted');
+    });
+  }
+  signUp(String email,String password)async{
+    UserCredential? usercredential;
+    try{
+      usercredential =await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    }
+    on FirebaseAuthException catch(ex){
+      Fluttertoast.showToast(
+          msg: ex.code.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+  }
+  addData(String fname,String lname,String email,String contact,String society_name,String Desegnation){
+    User? user = FirebaseAuth.instance.currentUser;
+    String? userId = "";
+    userId = user?.uid;
+    FirebaseFirestore.instance.collection("Members").doc(userId).set(
+        {
+          "id":userId,
+          "email":email,
+          "contact":contact,
+          "fname":fname,
+          "lname":lname,
+          "society":society_name,
+          "desegination":Desegnation
+        }).then((value){
+      print('Data inserted');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String fname="",lname="",gender="",email="",cpassword="",password="",contact="",society_name="",society_address="";
@@ -217,7 +273,10 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         );
                       }
                       else{
-                        //register the user
+                        addSociety(society_name, society_address, contact);
+                        signUp(email, password);
+                        addData(fname, lname, email, contact, society_name, "Secretary");
+                        Navigator.push(context, MaterialPageRoute(builder: (contact)=>Home()));
                       }
                     });
                     // Navigator.of(context).pop();

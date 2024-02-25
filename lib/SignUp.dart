@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neighbosphere/Home.dart';
+import 'package:neighbosphere/SignIn.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -10,6 +14,40 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  signUp(String email,String password)async{
+    UserCredential? usercredential;
+    try{
+      usercredential =await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    }
+    on FirebaseAuthException catch(ex){
+      Fluttertoast.showToast(
+          msg: ex.code.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+  }
+  addData(String fname,String lname,String email,String contact,String society_name,String Desegnation){
+    User? user = FirebaseAuth.instance.currentUser;
+    String? userId = "";
+       userId = user?.uid;
+    FirebaseFirestore.instance.collection("Members").doc(userId).set(
+     {
+       "id":userId,
+       "email":email,
+       "contact":contact,
+       "fname":fname,
+       "lname":lname,
+       "society":society_name,
+       "desegination":Desegnation
+     }).then((value){
+      print('Data inserted');
+    });
+  }
   @override
   Widget build(BuildContext context) {
     String fname="",lname="",gender="",email="",cpassword="",password="",contact="",society_name="";
@@ -192,10 +230,11 @@ class _SignUpState extends State<SignUp> {
                         );
                       }
                       else{
-                        //register the user
+                        signUp(email, password);
+                        addData(fname, lname, email, contact, society_name, "Member");
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                       }
                     });
-                    // Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
