@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class RegisterSociety extends StatefulWidget {
+  const RegisterSociety({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<RegisterSociety> createState() => _RegisterSocietyState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _RegisterSocietyState extends State<RegisterSociety> {
   @override
   Widget build(BuildContext context) {
-    String fname="",lname="",gender="",email="",cpassword="",password="",contact="",society_name="";
+    String fname="",lname="",gender="",email="",cpassword="",password="",contact="",society_name="",society_address="";
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -175,12 +175,37 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 15.0,),
+                TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  minLines: 3,
+                  onChanged: (value){
+                    society_address = value;
+                  },
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.home_filled, color: Colors.black),
+                    hintText: 'Enter Society Address',
+                    label: const Text('Address'),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: Colors.purple,
+                            width: 2.0
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 25.0,),
                 ElevatedButton(
                   onPressed: (){
                     setState(() {
                       bool res = password == cpassword;
-                      if(!res && (password.isEmpty || fname.isEmpty || lname.isEmpty || email.isEmpty || contact.isEmpty || society_name.isEmpty || password.isEmpty)){
+                      if(!res && (password.isEmpty || fname.isEmpty || lname.isEmpty || email.isEmpty || contact.isEmpty || society_name.isEmpty || password.isEmpty || society_address.isEmpty)){
                         Fluttertoast.showToast(
                             msg: "Either one of the field is empty or Passwords dont match",
                             toastLength: Toast.LENGTH_SHORT,
@@ -200,47 +225,13 @@ class _SignUpState extends State<SignUp> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                      )
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    child: const Text(
-                      'SIGNUP',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(25.0),
-                  child: const Center(
-                    child: Text(
-                        'or',
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold
-                        ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                ElevatedButton(
-                  onPressed: (){
-                    // Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)
                       )
                   ),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     child: const Text(
-                      'REGISTER YOUR SOCIETY',
+                      'REGISTER',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.white
@@ -256,3 +247,4 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
+

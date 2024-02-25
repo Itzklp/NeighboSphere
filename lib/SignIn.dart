@@ -16,7 +16,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
         body: SingleChildScrollView(
         child: Container(
-        padding: EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(30.0),
         child: Center(
           child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,7 +64,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
-            const SizedBox(height: 15.0,),
+            const SizedBox(height: 25.0,),
             ElevatedButton(
               onPressed: (){
                 setState(() {
@@ -102,6 +102,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
+
               ]
             ),
           ),
