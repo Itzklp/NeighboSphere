@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "549142318089",
+    "project_id": "neighbosphere",
+    "storage_bucket": "neighbosphere.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549142318089:android:191e86b917e7d041a8bcd8",
+        "android_client_info": {
+          "package_name": "com.example.neighbosphere"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD045gRelTpTjsrEzyvh7n_kKtFAFPjpBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
