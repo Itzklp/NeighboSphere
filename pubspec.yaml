@@ -69,6 +69,9 @@ flutter:
   assets:
     - assets/SplashScreenImg1.png
     - assets/SplashScreenImg1.png
+    - assets/house.png
+    - assets/house2.png
+    - assets/house3.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

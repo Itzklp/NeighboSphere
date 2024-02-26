@@ -68,239 +68,291 @@ class _RegisterSocietyState extends State<RegisterSociety> {
 
   @override
   Widget build(BuildContext context) {
+    bool obscureText = true;
     String fname="",lname="",gender="",email="",cpassword="",password="",contact="",society_name="",society_address="";
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(30.0),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextField(
-                  onChanged: (value){
-                    fname = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.person_2_rounded, color: Colors.black),
-                    hintText: 'Enter the First Name',
-                    label: const Text('First Name'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            Image.asset(
+              'assets/house3.png', // Replace 'your_image.png' with your image path
+              height: 150, // Adjust height as needed
+            ),
+            SizedBox(height: 20),
+            // Welcome Text
+            Text(
+              "Welcome to Neighbosphere!!",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Register your society now for streamlined management and vibrant community connections. Let's build a better neighborhood together!",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Container(
+              padding: EdgeInsets.all(30.0),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextField(
+                      onChanged: (value){
+                        fname = value;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.person_2_rounded, color: Colors.black),
+                        hintText: 'Enter the First Name',
+                        label: const Text('First Name'),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                            borderRadius: BorderRadius.circular(10.0)
                         ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                TextField(
-                  onChanged: (value){
-                    lname = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.person_2_rounded, color: Colors.black),
-                    hintText: 'Enter the Last Name',
-                    label: const Text('Last Name'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.purple,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
                         ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                TextField(
-                  onChanged: (value){
-                    email = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email_rounded, color: Colors.black),
-                    hintText: 'Enter E-mail',
-                    label: const Text('E-mail'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  onChanged: (value){
-                    contact = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.phone, color: Colors.black),
-                    hintText: 'Enter Contact',
-                    label: const Text('Phone'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                TextField(
-                  onChanged: (value){
-                    society_name = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.house, color: Colors.black),
-                    hintText: 'Enter the Society name',
-                    label: const Text('Society'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                TextField(
-                  onChanged: (value){
-                    password = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.password_rounded, color: Colors.black),
-                    hintText: 'Password',
-                    label: const Text('Password'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                TextField(
-                  onChanged: (value){
-                    cpassword = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.password_rounded, color: Colors.black),
-                    hintText: 'Confirm Password',
-                    label: const Text('Confirm Password'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0,),
-                TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  minLines: 3,
-                  onChanged: (value){
-                    society_address = value;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.home_filled, color: Colors.black),
-                    hintText: 'Enter Society Address',
-                    label: const Text('Address'),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.purple,
-                            width: 2.0
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 25.0,),
-                ElevatedButton(
-                  onPressed: (){
-                    setState(() {
-                      bool res = password == cpassword;
-                      if(!res && (password.isEmpty || fname.isEmpty || lname.isEmpty || email.isEmpty || contact.isEmpty || society_name.isEmpty || password.isEmpty || society_address.isEmpty)){
-                        Fluttertoast.showToast(
-                            msg: "Either one of the field is empty or Passwords dont match",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 3,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0
-                        );
-                      }
-                      else{
-                        addSociety(society_name, society_address, contact);
-                        signUp(email, password);
-                        addData(fname, lname, email, contact, society_name, "Secretary");
-                        Navigator.push(context, MaterialPageRoute(builder: (contact)=>Home()));
-                      }
-                    });
-                    // Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)
-                      )
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    child: const Text(
-                      'REGISTER',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 15.0,),
+                    TextField(
+                      onChanged: (value){
+                        lname = value;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.person_2_rounded, color: Colors.black),
+                        hintText: 'Enter the Last Name',
+                        label: const Text('Last Name'),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.purple,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15.0,),
+                    TextField(
+                      onChanged: (value){
+                        email = value;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.email_rounded, color: Colors.black),
+                        hintText: 'Enter E-mail',
+                        label: const Text('E-mail'),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.purple,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15.0,),
+                    TextField(
+                      keyboardType: TextInputType.number,
+                      onChanged: (value){
+                        contact = value;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.phone, color: Colors.black),
+                        hintText: 'Enter Contact',
+                        label: const Text('Phone'),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.purple,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15.0,),
+                    TextField(
+                      onChanged: (value){
+                        society_name = value;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.house, color: Colors.black),
+                        hintText: 'Enter the Society name',
+                        label: const Text('Society'),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.purple,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15.0,),
+                    TextField(
+                      onChanged: (value) {
+                        password = value;
+                      },
+                      obscureText: true, // This property hides the entered text
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock_rounded, color: Colors.black), // Changed to lock icon
+                        hintText: 'Password',
+                        labelText: 'Password',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: HexColor("#8a76ba")),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.purple,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        // Added suffix icon for toggling visibility
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.visibility), // Eye icon
+                          onPressed: () {
+                            setState(() {
+                              // Toggle the obscureText property
+                              obscureText = !obscureText;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15.0,),
+                    TextField(
+                      onChanged: (value) {
+                        cpassword = value;
+                      },
+                      obscureText: true, // This property hides the entered text
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock_rounded, color: Colors.black), // Changed to lock icon
+                        hintText: 'Confirm Password',
+                        labelText: 'Confirm Password',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: HexColor("#8a76ba")),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.purple,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        // Added suffix icon for toggling visibility
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.visibility), // Eye icon
+                          onPressed: () {
+                            setState(() {
+                              // Toggle the obscureText property
+                              obscureText = !obscureText;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15.0,),
+                    TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      minLines: 3,
+                      onChanged: (value){
+                        society_address = value;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.home_filled, color: Colors.black),
+                        hintText: 'Enter Society Address',
+                        label: const Text('Address'),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.purple,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 25.0,),
+                    ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          bool res = password == cpassword;
+                          if(!res && (password.isEmpty || fname.isEmpty || lname.isEmpty || email.isEmpty || contact.isEmpty || society_name.isEmpty || password.isEmpty || society_address.isEmpty)){
+                            Fluttertoast.showToast(
+                                msg: "Either one of the field is empty or Passwords dont match",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 3,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                            );
+                          }
+                          else{
+                            addSociety(society_name, society_address, contact);
+                            signUp(email, password);
+                            addData(fname, lname, email, contact, society_name, "Secretary");
+                            Navigator.push(context, MaterialPageRoute(builder: (contact)=>Home()));
+                          }
+                        });
+                        // Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                          )
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(15.0),
+                        child: const Text(
+                          'REGISTER',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
