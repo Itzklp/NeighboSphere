@@ -32,22 +32,26 @@ class _SignUpState extends State<SignUp> {
       );
     }
   }
-  addData(String fname,String lname,String email,String contact,String society_name,String Desegnation){
+  Future<void> addData(String fname, String lname, String email, String contact, String society_name, String Desegnation) async {
     User? user = FirebaseAuth.instance.currentUser;
-    String? userId = "";
-       userId = user?.uid;
-    FirebaseFirestore.instance.collection("Members").doc(userId).set(
-     {
-       "id":userId,
-       "email":email,
-       "contact":contact,
-       "fname":fname,
-       "lname":lname,
-       "society":society_name,
-       "desegination":Desegnation
-     }).then((value){
-      print('Data inserted');
-    });
+    if (user != null) {
+      String userId = user.uid;
+      await FirebaseFirestore.instance.collection("Members").doc(userId).set({
+        "id": userId,
+        "email": email,
+        "contact": contact,
+        "fname": fname,
+        "lname": lname,
+        "society": society_name,
+        "desegination": Desegnation
+      }).then((value) {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+      }).catchError((error) {
+        print('Failed to insert data: $error');
+      });
+    } else {
+      print('Current user is null');
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,7 @@ class _SignUpState extends State<SignUp> {
             ),
             SizedBox(height: 20),
             // Welcome Text
-            Text(
+            const Text(
               "Welcome to Neighbosphere!!",
               style: TextStyle(
                 fontSize: 24,
@@ -72,7 +76,7 @@ class _SignUpState extends State<SignUp> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Sign up now to connect with neighbors, manage your society, and discover local events. Let's build a vibrant community together!",
               style: TextStyle(
@@ -282,7 +286,6 @@ class _SignUpState extends State<SignUp> {
                           else{
                             signUp(email, password);
                             addData(fname, lname, email, contact, society_name, "Member");
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                           }
                         });
                       },
