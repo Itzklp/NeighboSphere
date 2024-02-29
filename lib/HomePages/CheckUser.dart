@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:neighbosphere/Home.dart';
-import 'package:neighbosphere/SignIn.dart';
+import 'package:neighbosphere/HomePages/Home.dart';
+import 'package:neighbosphere/SignupPages/SignIn.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +29,7 @@ class CheckUser extends StatelessWidget {
       future: FirebaseAuth.instance.authStateChanges().first,
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

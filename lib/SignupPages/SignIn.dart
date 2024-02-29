@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:neighbosphere/Home.dart';
-import 'package:neighbosphere/SignUp.dart';
+import 'package:neighbosphere/HomePages/Home.dart';
+import 'package:neighbosphere/SignupPages/SignUp.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -17,6 +17,7 @@ class _SignInState extends State<SignIn> {
     UserCredential? usercredential;
     try{
       usercredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value){
+        Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
       });
     }
@@ -47,7 +48,7 @@ class _SignInState extends State<SignIn> {
             ),
             SizedBox(height: 20),
             // Welcome Text
-            Text(
+            const Text(
               "Welcome back!",
               style: TextStyle(
                 fontSize: 24,
@@ -55,7 +56,7 @@ class _SignInState extends State<SignIn> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "We're glad to see you again. Sign in to manage your society effortlessly.",
               style: TextStyle(

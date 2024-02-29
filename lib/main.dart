@@ -1,11 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:neighbosphere/CheckUser.dart';
-import 'package:neighbosphere/RegisterSociety.dart';
-import 'package:neighbosphere/SignUp.dart';
-import 'SignIn.dart';
-import 'SplashScreen.dart';
+import 'package:neighbosphere/HomePages/CheckUser.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -19,4 +15,3 @@ void main() async{
       home: CheckUser()
   ));
 }
-

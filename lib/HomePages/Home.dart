@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:neighbosphere/UserHome.dart';
+import 'package:neighbosphere/HomePages/UserHome.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -52,7 +50,7 @@ class _HomeState extends State<Home> {
           );
         } else {
           _data = snapshot.data;
-          print(_data);
+          print(_data?['desegination']);
           return UserHome(); // Pass the fetched data to UserHome
         }
       },

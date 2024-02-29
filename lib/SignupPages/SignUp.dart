@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:neighbosphere/Home.dart';
-import 'package:neighbosphere/RegisterSociety.dart';
-import 'package:neighbosphere/SignIn.dart';
+import 'package:neighbosphere/HomePages/Home.dart';
+import 'package:neighbosphere/SignupPages/RegisterSociety.dart';
+import 'package:neighbosphere/SignupPages/SignIn.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -45,6 +45,7 @@ class _SignUpState extends State<SignUp> {
         "society": society_name,
         "desegination": Desegnation
       }).then((value) {
+        Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
       }).catchError((error) {
         print('Failed to insert data: $error');
@@ -269,8 +270,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     const SizedBox(height: 25.0,),
                     ElevatedButton(
-                      onPressed: (){
-                        setState(() {
+                      onPressed: ()async{
+                        setState(() async{
                           bool res = password == cpassword;
                           if(!res && (password.isEmpty || fname.isEmpty || lname.isEmpty || email.isEmpty || contact.isEmpty || society_name.isEmpty || password.isEmpty)){
                             Fluttertoast.showToast(
@@ -284,8 +285,14 @@ class _SignUpState extends State<SignUp> {
                             );
                           }
                           else{
-                            signUp(email, password);
-                            addData(fname, lname, email, contact, society_name, "Member");
+                            await signUp(email, password);
+                            User? user = FirebaseAuth.instance.currentUser;
+                            if(user !=null){
+                              addData(fname, lname, email, contact, society_name, "Member");
+                            }
+                            else{
+                              print('Current user is null');
+                            }
                           }
                         });
                       },
