@@ -1,29 +1,52 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:neighbosphere/HomePages/SecreatoryHome.dart';
+import 'package:neighbosphere/HomePages/TreasurerHome.dart';
 import 'package:neighbosphere/HomePages/UserHome.dart';
+import 'package:neighbosphere/HomePages/AdminHome.dart'; // Import AdminHome page
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  Map<String, dynamic>? _data;
+  Map<String, dynamic>? _memberData;
+  Map<String, dynamic>? _adminData;
 
-  Future<Map<String, dynamic>> fetchData(String documentId) async {
+  Future<Map<String, dynamic>> fetchMemberData(String documentId) async {
     try {
-      DocumentSnapshot documentSnapshot =
-      await FirebaseFirestore.instance.collection('Members').doc(documentId).get();
-      if (documentSnapshot.exists) {
-        return documentSnapshot.data() as Map<String, dynamic>;
+      DocumentSnapshot memberSnapshot =
+      await FirebaseFirestore.instance.collection('Members')
+          .doc(documentId)
+          .get();
+      if (memberSnapshot.exists) {
+        return memberSnapshot.data() as Map<String, dynamic>;
       } else {
-        return {}; // Return an empty map if document not found
+        return {}; // Return an empty map if member not found
       }
     } catch (error) {
-      print("Error fetching data: $error");
+      print("Error fetching member data: $error");
+      throw error; // Rethrow the error for handling in the UI
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchAdminData(String documentId) async {
+    try {
+      DocumentSnapshot adminSnapshot =
+      await FirebaseFirestore.instance.collection('Admin')
+          .doc(documentId)
+          .get();
+      if (adminSnapshot.exists) {
+        return adminSnapshot.data() as Map<String, dynamic>;
+      } else {
+        return {}; // Return an empty map if admin not found
+      }
+    } catch (error) {
+      print("Error fetching admin data: $error");
       throw error; // Rethrow the error for handling in the UI
     }
   }
@@ -32,12 +55,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     String? userId = user?.uid;
-
-    return FutureBuilder<Map<String, dynamic>>(
-      future: fetchData(userId.toString()),
+    print(userId);
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: Future.wait([
+        fetchMemberData(userId.toString()),
+        fetchAdminData(userId.toString())
+      ]),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -49,9 +75,31 @@ class _HomeState extends State<Home> {
             ),
           );
         } else {
-          _data = snapshot.data;
-          print(_data?['desegination']);
-          return UserHome(); // Pass the fetched data to UserHome
+          _memberData = snapshot.data![0];
+          _adminData = snapshot.data![1];
+          print(_memberData);
+          print(_adminData);
+
+          // Check if member data exists
+          if (_memberData != null && _memberData!.isNotEmpty) {
+            String? designation = _memberData?['designation'];
+            if (designation == 'Member') {
+              return UserHome();
+            } else if (designation == 'Secretary') {
+              return SecretaryHome();
+            } else if (designation == 'Treasurer') {
+              return TreasurerHome();
+            }
+          }
+          // Check if admin data exists
+          else if (_adminData != null && _adminData!.isNotEmpty) {
+            return AdminHome();
+          }
+          return const Scaffold(
+            body: Center(
+              child: Text(""),
+            ),
+          );
         }
       },
     );

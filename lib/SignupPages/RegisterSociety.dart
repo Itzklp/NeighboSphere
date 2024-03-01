@@ -21,7 +21,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
     String id = String.fromCharCodes(Iterable.generate(
         5, (_) => 'abcdefghijklmnopqrstuvwxyz0123456789'.codeUnitAt(random.nextInt(36))));
 
-    FirebaseFirestore.instance.collection("Society").doc(id).set(
+    FirebaseFirestore.instance.collection("SocietyRequest").doc(id).set(
         {
           "id":id,
           "address":address,
