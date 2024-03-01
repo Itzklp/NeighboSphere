@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../SignupPages/SignIn.dart';
 
-class UserHome extends StatelessWidget {
-  const UserHome({super.key});
+
+class TreasurerHome extends StatelessWidget {
+  const TreasurerHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +20,10 @@ class UserHome extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-              DrawerHeader(
-              decoration: BoxDecoration(
-                color: HexColor("#8a76ba"),
-              ),
+            DrawerHeader(
+                decoration: BoxDecoration(
+                  color: HexColor("#8a76ba"),
+                ),
                 child: Text('Home')
             ),
             ListTile(
@@ -35,6 +37,19 @@ class UserHome extends StatelessWidget {
             ListTile(
               title: const Text('Item 3'),
               onTap: (){},
+            ),
+            ListTile(
+              title: const Text('Sign Out'),
+              onTap: () async{
+                try {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                } catch (e) {
+                  print("Error signing out: $e");
+                  // Handle sign-out errors here
+                }
+              },
             ),
           ],
         ),

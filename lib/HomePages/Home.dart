@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:neighbosphere/HomePages/SecreatoryHome.dart';
-import 'package:neighbosphere/HomePages/TreasurerHome.dart';
-import 'package:neighbosphere/HomePages/UserHome.dart';
-import 'package:neighbosphere/HomePages/AdminHome.dart'; // Import AdminHome page
+import 'package:neighbosphere/HomePages/Homes/SecreatoryHome.dart';
+import 'package:neighbosphere/HomePages/Homes/TreasurerHome.dart';
+import 'package:neighbosphere/HomePages/Homes/UserHome.dart';
+import 'package:neighbosphere/HomePages/Homes/AdminHome.dart'; // Import AdminHome page
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
       ]),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -82,18 +82,18 @@ class _HomeState extends State<Home> {
 
           // Check if member data exists
           if (_memberData != null && _memberData!.isNotEmpty) {
-            String? designation = _memberData?['designation'];
+            String? designation = _memberData?['designation"'];
             if (designation == 'Member') {
-              return UserHome();
+              return const UserHome();
             } else if (designation == 'Secretary') {
-              return SecretaryHome();
+              return const SecretaryHome();
             } else if (designation == 'Treasurer') {
-              return TreasurerHome();
+              return const TreasurerHome();
             }
           }
           // Check if admin data exists
           else if (_adminData != null && _adminData!.isNotEmpty) {
-            return AdminHome();
+            return const AdminHome();
           }
           return const Scaffold(
             body: Center(

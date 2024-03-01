@@ -48,11 +48,11 @@ class _RegisterSocietyState extends State<RegisterSociety> {
       );
     }
   }
-  addData(String fname,String lname,String email,String contact,String society_name,String Desegnation){
+  addData(String fname,String lname,String email,String contact,String society_name,String Desegnation) async{
     User? user = FirebaseAuth.instance.currentUser;
     String? userId = "";
     userId = user?.uid;
-    FirebaseFirestore.instance.collection("Members").doc(userId).set(
+    await FirebaseFirestore.instance.collection("Members").doc(userId).set(
         {
           "id":userId,
           "email":email,
@@ -60,7 +60,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
           "fname":fname,
           "lname":lname,
           "society":society_name,
-          "desegination":Desegnation
+          "designation":Desegnation
         }).then((value){
       print('Data inserted');
     });

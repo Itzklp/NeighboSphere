@@ -43,7 +43,7 @@ class _SignUpState extends State<SignUp> {
         "fname": fname,
         "lname": lname,
         "society": society_name,
-        "desegination": Desegnation
+        "designation": Desegnation
       }).then((value) {
         Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
