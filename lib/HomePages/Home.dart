@@ -82,13 +82,13 @@ class _HomeState extends State<Home> {
 
           // Check if member data exists
           if (_memberData != null && _memberData!.isNotEmpty) {
-            String? designation = _memberData?['designation"'];
+            String? designation = _memberData?['designation'];
             if (designation == 'Member') {
-              return const UserHome();
+              return UserHome(memberId: userId,societyId: _memberData?['society'],);
             } else if (designation == 'Secretary') {
-              return const SecretaryHome();
+              return SecretaryHome();
             } else if (designation == 'Treasurer') {
-              return const TreasurerHome();
+              return TreasurerHome();
             }
           }
           // Check if admin data exists
