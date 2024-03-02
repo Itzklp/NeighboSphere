@@ -8,6 +8,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neighbosphere/HomePages/Home.dart';
 import 'package:neighbosphere/SignupPages/SignIn.dart';
 
+import '../IDGenerator/IDGenerator.dart';
+
 class RegisterSociety extends StatefulWidget {
   const RegisterSociety({super.key});
 
@@ -17,10 +19,7 @@ class RegisterSociety extends StatefulWidget {
 
 class _RegisterSocietyState extends State<RegisterSociety> {
   addSociety(String society,String address,String contact){
-    final random = Random();
-    String id = String.fromCharCodes(Iterable.generate(
-        5, (_) => 'abcdefghijklmnopqrstuvwxyz0123456789'.codeUnitAt(random.nextInt(36))));
-
+    String id = UniqueRandomStringGenerator.generateUniqueString(15);
     FirebaseFirestore.instance.collection("SocietyRequest").doc(id).set(
         {
           "id":id,

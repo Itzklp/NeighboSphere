@@ -7,14 +7,15 @@ import 'package:neighbosphere/HomePages/MembersFunction/MaintainReq.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/ManageHouse.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/VisitorRecord.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/FeedbackPage.dart';
+import 'package:neighbosphere/HomePages/SecurityFunctions/AddVisitor.dart';
 
 import '../../SignupPages/SignIn.dart';
 
 
-class UserHome extends StatelessWidget {
+class SecurityHome extends StatelessWidget {
   final String? memberId;
   final String? societyId;
-  const UserHome({super.key,required this.memberId,required this.societyId});
+  const SecurityHome({super.key,required this.memberId,required this.societyId});
 
   @override
   Widget build(BuildContext context) {
@@ -27,36 +28,18 @@ class UserHome extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-              DrawerHeader(
-              decoration: BoxDecoration(
-                color: HexColor("#8a76ba"),
-              ),
+            DrawerHeader(
+                decoration: BoxDecoration(
+                  color: HexColor("#8a76ba"),
+                ),
                 child: Text('Home')
             ),
             ListTile(
-              title: const Text('Manage House'),
+              title: const Text('Add Visitor'),
               onTap: (){
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageHouse(societyId: societyId,memberId: memberId,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddVisitor(societyId: societyId,memberId: memberId,)));
               },
-            ),
-            ListTile(
-              title: const Text('Visitor Record'),
-              onTap: (){
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => VisitorRecord(societyId: societyId, memberId: memberId)));
-              },
-            ),
-            ListTile(
-              title: const Text('Maintenance Request'),
-              onTap: (){
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MaintainReq(memberId: memberId, societyId: societyId)));
-              },
-            ),
-            ListTile(
-              title: const Text('Book Facility'),
-              onTap: (){},
             ),
             ListTile(
               title: const Text('Feedback'),

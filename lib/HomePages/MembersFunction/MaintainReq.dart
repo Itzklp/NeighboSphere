@@ -1,29 +1,32 @@
 import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 import '../../IDGenerator/IDGenerator.dart';
 
 
-class ManageHouse extends StatefulWidget {
+
+class MaintainReq extends StatefulWidget {
   final String? memberId;
   final String? societyId;
-  const ManageHouse({super.key,this.memberId,required this.societyId});
+  const MaintainReq({super.key,required this.memberId,required this.societyId});
 
   @override
-  State<ManageHouse> createState() => _ManageHouseState();
+  State<MaintainReq> createState() => _MaintainReqState();
 }
 
-class _ManageHouseState extends State<ManageHouse> {
+class _MaintainReqState extends State<MaintainReq> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor("#8a76ba"),
-        title: Text('Manage House'),
+        title: Text('Maintenance Request'),
       ),
-      body: HouseList(memberId: widget.memberId,),
+      body: MaintenanceList(societyId: widget.societyId,memberId: widget.memberId,),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -36,21 +39,25 @@ class _ManageHouseState extends State<ManageHouse> {
     );
   }
   void _showMyPopup(BuildContext context,String? societyId,String? memberId) {
-    String house_id = '';
-    String ownership = '';
+    String type = '';
+    String description = '';
+    String house_no = '';
+    DateTime now = DateTime.now();
+    String formatDate(DateTime date) => DateFormat('dd-MM-yyyy').format(date);
+    String formattedDate = formatDate(now);
 
     showDialog(
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
-            title: const Text('Add House'),
+            title: const Text('Add Maintenance Request'),
             content: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextField(
                     onChanged: (value){
-                      house_id = value;
+                      house_no = value;
                     },
                     decoration: InputDecoration(
                       hintText: 'Enter House No',
@@ -71,11 +78,32 @@ class _ManageHouseState extends State<ManageHouse> {
                   const SizedBox(height: 15.0,),
                   TextField(
                     onChanged: (value){
-                      ownership = value;
+                      type = value;
                     },
                     decoration: InputDecoration(
-                      hintText: 'Enter Ownership Type',
-                      label: const Text('Ownership'),
+                      hintText: 'Enter Maintenance Type',
+                      label: const Text('Type'),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: HexColor("#8a76ba")),
+                          borderRadius: BorderRadius.circular(10.0)
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: HexColor("#8a76ba"),
+                              width: 2.0
+                          ),
+                          borderRadius: BorderRadius.circular(10.0)
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15.0,),
+                  TextField(
+                    onChanged: (value){
+                      description = value;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Enter Maintenance Description',
+                      label: const Text('Description'),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: HexColor("#8a76ba")),
                           borderRadius: BorderRadius.circular(10.0)
@@ -106,19 +134,22 @@ class _ManageHouseState extends State<ManageHouse> {
                 onPressed: (){
                   setState(() async {
                     String id = UniqueRandomStringGenerator.generateUniqueString(15);
-                    await FirebaseFirestore.instance.collection("House").doc(id).set(
+                    await FirebaseFirestore.instance.collection("MaintenanceRequest").doc(id).set(
                         {
                           'id' : id,
-                          'house_no' : house_id,
+                          'house_no' : house_no,
                           'member_id' : memberId,
-                          'ownership' : ownership,
-                          'society_id' : societyId
+                          'type' : type,
+                          'society_id' : societyId,
+                          'description' : description,
+                          'status' : 'Not Read',
+                          'date' : formattedDate
                         });
                     Navigator.of(context).pop();
                   });
 
                 },
-                child: Text('Add'),
+                child: Text('Request'),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green
                 ),
@@ -130,15 +161,16 @@ class _ManageHouseState extends State<ManageHouse> {
   }
 }
 
-class HouseList extends StatelessWidget {
+class MaintenanceList extends StatelessWidget {
   final String? memberId;
-  const HouseList({super.key,this.memberId});
+  final String? societyId;
+  const MaintenanceList({super.key,required this.societyId, this.memberId});
 
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection('House')
+          .collection('MaintenanceRequest')
+          .where('society_id', isEqualTo: societyId)
           .where('member_id', isEqualTo: memberId)
           .snapshots(),
       builder: (context, snapshot) {
@@ -150,7 +182,7 @@ class HouseList extends StatelessWidget {
         }
         final docs = snapshot.data!.docs;
         if (docs.isEmpty) {
-          return Center(child: Text('You have no houses.'));
+          return Center(child: Text('You have not made any Maintenance Request.'));
         }
         return ListView.builder(
           itemCount: docs.length,
@@ -159,18 +191,22 @@ class HouseList extends StatelessWidget {
             docs[index].data() as Map<String, dynamic>;
             return Card(
               child: ListTile(
-                title: Text('House No: ${data['id']}'),
+                title: Text('Request ID: ${docs[index].id}'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Ownership Type: ${data['ownership']}'),
-                    Text('Society Name: ${data['society_id']}'),
+                    Text('Request Type: ${data['type']}'),
+                    Text('Request Details: ${data['description']}'),
+                    Text('House No: ${data['house_no']}'),
+                    Text('Member Id: ${data['member_id']}'),
+                    Text('Date: ${data['date']}'),
+                    Text('Status: ${data['status']}'),
                   ],
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
                   style: IconButton.styleFrom(
-                      foregroundColor: Colors.red
+                    foregroundColor: Colors.red,
                   ),
                   onPressed: () => _deleteDocument(docs[index].id),
                 ),
@@ -181,10 +217,9 @@ class HouseList extends StatelessWidget {
       },
     );
   }
-
   void _deleteDocument(String id) {
     try {
-      FirebaseFirestore.instance.collection('House').doc(id).delete();
+      FirebaseFirestore.instance.collection('MaintenanceRequest').doc(id).delete();
       // Optional: Show a snackbar or message to indicate successful deletion
     } catch (e) {
       print("Error deleting document: $e");

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:neighbosphere/HomePages/Homes/SecreatoryHome.dart';
+import 'package:neighbosphere/HomePages/Homes/SecurityHome.dart';
 import 'package:neighbosphere/HomePages/Homes/TreasurerHome.dart';
 import 'package:neighbosphere/HomePages/Homes/UserHome.dart';
 import 'package:neighbosphere/HomePages/Homes/AdminHome.dart'; // Import AdminHome page
@@ -89,6 +90,8 @@ class _HomeState extends State<Home> {
               return SecretaryHome();
             } else if (designation == 'Treasurer') {
               return TreasurerHome();
+            } else if (designation == 'Security') {
+              return SecurityHome(memberId: userId,societyId: _memberData?['society'],);
             }
           }
           // Check if admin data exists
