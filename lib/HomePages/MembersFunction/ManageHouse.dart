@@ -150,7 +150,7 @@ class HouseList extends StatelessWidget {
         }
         final docs = snapshot.data!.docs;
         if (docs.isEmpty) {
-          return Center(child: Text('You have no houses.'));
+          return Center(child: Text('No House Data Found.'));
         }
         return ListView.builder(
           itemCount: docs.length,
@@ -158,20 +158,42 @@ class HouseList extends StatelessWidget {
             final Map<String, dynamic> data =
             docs[index].data() as Map<String, dynamic>;
             return Card(
+              elevation: 10.0,
+              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               child: ListTile(
-                title: Text('House No: ${data['id']}'),
+                contentPadding: EdgeInsets.all(16.0),
+                title: Text(
+                  'House No: ${data['house_no']}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Ownership Type: ${data['ownership']}'),
-                    Text('Society Name: ${data['society_id']}'),
+                    SizedBox(height: 8.0),
+                    Text(
+                      'Ownership: ${data['ownership']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    SizedBox(height: 4.0),
+                    Text(
+                      'Society: ${data['society_id']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
                   ],
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
-                  style: IconButton.styleFrom(
-                      foregroundColor: Colors.red
-                  ),
+                  color: Colors.red,
                   onPressed: () => _deleteDocument(docs[index].id),
                 ),
               ),

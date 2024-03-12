@@ -22,6 +22,7 @@ class UserHome extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: HexColor("#8a76ba"),
         title: Text('Home'),
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
@@ -31,7 +32,17 @@ class UserHome extends StatelessWidget {
               decoration: BoxDecoration(
                 color: HexColor("#8a76ba"),
               ),
-                child: Text('Home')
+                child: Column(
+                  children: [
+                    Image.asset(
+                      "assets/black_house.png",
+                      width: 110, // Adjust the width as needed
+                      height: 110, // Adjust the height as needed
+                      fit: BoxFit.cover,
+                    ),
+                    Text("Home"),
+                  ],
+                )
             ),
             ListTile(
               title: const Text('Manage House'),

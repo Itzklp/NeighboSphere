@@ -65,6 +65,8 @@ class _RegisterSocietyState extends State<RegisterSociety> {
     });
   }
 
+  bool obscureText_1 = true;
+  bool obscureText_2 = true;
   @override
   Widget build(BuildContext context) {
     bool obscureText = true;
@@ -73,12 +75,12 @@ class _RegisterSocietyState extends State<RegisterSociety> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20,),
+            SizedBox(height: 30,),
             Image.asset(
               'assets/house3.png', // Replace 'your_image.png' with your image path
               height: 150, // Adjust height as needed
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             // Welcome Text
             Text(
               "Welcome to Neighbosphere!!",
@@ -89,13 +91,16 @@ class _RegisterSocietyState extends State<RegisterSociety> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 10),
-            Text(
-              "Register your society now for streamlined management and vibrant community connections. Let's build a better neighborhood together!",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                "Register your society now for streamlined management and vibrant community connections. Let's build a better neighborhood together!",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             Container(
               padding: EdgeInsets.all(30.0),
@@ -117,7 +122,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -139,7 +144,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -161,7 +166,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -184,7 +189,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -206,7 +211,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -218,7 +223,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                       onChanged: (value) {
                         password = value;
                       },
-                      obscureText: true, // This property hides the entered text
+                      obscureText: obscureText_1, // This property hides the entered text
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock_rounded, color: Colors.black), // Changed to lock icon
                         hintText: 'Password',
@@ -229,18 +234,20 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                            color: Colors.purple,
+                            color: Color(0xFF8a76ba),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         // Added suffix icon for toggling visibility
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.visibility), // Eye icon
+                          icon: Icon(
+                            obscureText_1 ? Icons.visibility : Icons.visibility_off,
+                          ), // Eye icon
                           onPressed: () {
                             setState(() {
                               // Toggle the obscureText property
-                              obscureText = !obscureText;
+                              obscureText_1 = !obscureText_1;
                             });
                           },
                         ),
@@ -251,7 +258,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                       onChanged: (value) {
                         cpassword = value;
                       },
-                      obscureText: true, // This property hides the entered text
+                      obscureText: obscureText_2, // This property hides the entered text
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock_rounded, color: Colors.black), // Changed to lock icon
                         hintText: 'Confirm Password',
@@ -262,18 +269,20 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                            color: Colors.purple,
+                            color: Color(0xFF8a76ba),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         // Added suffix icon for toggling visibility
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.visibility), // Eye icon
+                          icon: Icon(
+                            obscureText_2 ? Icons.visibility : Icons.visibility_off,
+                          ), // Eye icon
                           onPressed: () {
                             setState(() {
                               // Toggle the obscureText property
-                              obscureText = !obscureText;
+                              obscureText_2 = !obscureText_2;
                             });
                           },
                         ),
@@ -298,7 +307,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -336,7 +345,7 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                         // Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
+                          backgroundColor: Color(0xFF8a76ba),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)
                           )
@@ -349,6 +358,21 @@ class _RegisterSocietyState extends State<RegisterSociety> {
                               fontSize: 20,
                               color: Colors.white
                           ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 25.0,),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).popUntil(ModalRoute.withName('/root'));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                      },
+                      child: const Text(
+                        'Already have an account? Login here.',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF8a76ba)
                         ),
                       ),
                     ),

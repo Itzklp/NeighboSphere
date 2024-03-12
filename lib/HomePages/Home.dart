@@ -81,7 +81,6 @@ class _HomeState extends State<Home> {
           print(_memberData);
           print(_adminData);
 
-          // Check if member data exists
           if (_memberData != null && _memberData!.isNotEmpty) {
             String? designation = _memberData?['designation'];
             if (designation == 'Member') {

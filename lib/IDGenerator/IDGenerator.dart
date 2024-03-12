@@ -16,7 +16,7 @@ class UniqueRandomStringGenerator {
   static String generateUniqueString(int length) {
     String randomString;
     do {
-      randomString = _generateRandomString(length - 8); // Adjust length for timestamp
+      randomString = _generateRandomString(length - 8);
       randomString += DateTime.now().millisecondsSinceEpoch.toString().substring(8); // Add timestamp
     } while (_generatedStrings.contains(randomString));
 

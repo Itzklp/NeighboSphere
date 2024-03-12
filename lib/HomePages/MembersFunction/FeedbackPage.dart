@@ -128,7 +128,7 @@ class FeedbackList extends StatelessWidget {
         }
         final docs = snapshot.data!.docs;
         if (docs.isEmpty) {
-          return Center(child: Text('You have not submitted any Fidback'));
+          return Center(child: Text('You have not submitted any Feedback'));
         }
         return ListView.builder(
           itemCount: docs.length,

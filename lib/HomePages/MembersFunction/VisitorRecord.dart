@@ -38,7 +38,7 @@ class VisitorList extends StatelessWidget {
         }
         final houseIds = snapshot.data;
         if (houseIds == null || houseIds.isEmpty) {
-          return Center(child: Text('You have no houses.'));
+          return Center(child: Text('No Visitor Data Found.'));
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,20 +66,63 @@ class VisitorList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final Map<String, dynamic> data = docs[index].data() as Map<String, dynamic>;
                       return Card(
+                        elevation: 5.0,
+                        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
                         child: ListTile(
-                          title: Text('Visitor ID: ${docs[index].id}'),
+                          contentPadding: const EdgeInsets.all(16.0),
+                          title: Text(
+                            'Visitor ID: ${docs[index].id}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Visitor Name: ${data['name']}'),
-                              Text('Purpose: ${data['purpose']}'),
-                              Text('Date: ${data['date']}'),
-                              Text('House Id: ${data['house_id']}'),
-                              Text('Contact: ${data['contact']}'),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                'Visitor Name: ${data['name']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Purpose: ${data['purpose']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Date: ${data['date']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'House Id: ${data['house_id']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Contact: ${data['contact']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       );
+
                     },
                   );
                 },

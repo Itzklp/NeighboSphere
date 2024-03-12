@@ -210,26 +210,61 @@ class VisitorSecList extends StatelessWidget {
             final Map<String, dynamic> data =
             docs[index].data() as Map<String, dynamic>;
             return Card(
+              elevation: 5.0,
+              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               child: ListTile(
-                title: Text('Visitor Id: ${data['id']}'),
+                contentPadding: const EdgeInsets.all(16.0),
+                title: Text(
+                  'Visitor ID: ${data['id']}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Visitor Name: ${data['name']}'),
-                    Text('Visitor Contact : ${data['contact']}'),
-                    Text('Visited House: ${data['house_no']}'),
-                    Text('Purpose: ${data['purpose']}'),
+                    const SizedBox(height: 8.0),
+                    Text(
+                      'Visitor Name: ${data['name']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Visitor Contact: ${data['contact']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Visited House: ${data['house_no']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Purpose: ${data['purpose']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
                   ],
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  style: IconButton.styleFrom(
-                      foregroundColor: Colors.red
-                  ),
+                  icon: const Icon(Icons.delete),
+                  color: Colors.red,
                   onPressed: () => _deleteDocument(docs[index].id),
                 ),
               ),
             );
+
           },
         );
       },

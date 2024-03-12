@@ -39,6 +39,7 @@ class _SignInState extends State<SignIn> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0)),
             SizedBox(height: 20,),
             Image.asset(
               'assets/house.png', // Replace 'your_image.png' with your image path
@@ -55,13 +56,16 @@ class _SignInState extends State<SignIn> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            Text(
-              "We're glad to see you again. Sign in to manage your society effortlessly.",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Text(
+                "We're glad to see you again. Sign in to manage your society effortlessly.",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             Container(
               padding: const EdgeInsets.all(30.0),
@@ -83,7 +87,7 @@ class _SignInState extends State<SignIn> {
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                  color: Colors.purple,
+                                  color: Color(0xFF8a76ba),
                                   width: 2.0
                               ),
                               borderRadius: BorderRadius.circular(10.0)
@@ -95,7 +99,7 @@ class _SignInState extends State<SignIn> {
                         onChanged: (value) {
                           password = value;
                         },
-                        obscureText: true, // This property hides the entered text
+                        obscureText: obscureText, // This property hides the entered text
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.lock_rounded, color: Colors.black), // Changed to lock icon
                           hintText: 'Password',
@@ -106,14 +110,16 @@ class _SignInState extends State<SignIn> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.purple,
+                              color: Color(0xFF8a76ba),
                               width: 2.0,
                             ),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           // Added suffix icon for toggling visibility
                           suffixIcon: IconButton(
-                            icon: Icon(Icons.visibility), // Eye icon
+                            icon: Icon(
+                              obscureText ? Icons.visibility : Icons.visibility_off,
+                            ), // Eye icon
                             onPressed: () {
                               setState(() {
                                 // Toggle the obscureText property
@@ -145,7 +151,7 @@ class _SignInState extends State<SignIn> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
+                            backgroundColor: HexColor("#8a76ba"),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)
                             )
@@ -170,20 +176,20 @@ class _SignInState extends State<SignIn> {
                           'FORGET PASSWORD',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.black,
+                            color: Color(0xFF8a76ba)
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 15.0,),
+                      const SizedBox(height: 5.0,),
                       Container(
-                        padding: const EdgeInsets.all(25.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: const Center(
                           child: Text(
                             'or',
                             style: TextStyle(
                                 fontSize: 25.0,
-                                fontWeight: FontWeight.bold
+                                fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -194,7 +200,7 @@ class _SignInState extends State<SignIn> {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUp()));
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
+                            backgroundColor: HexColor("#8a76ba"),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)
                             )
@@ -227,10 +233,11 @@ class _SignInState extends State<SignIn> {
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
-            title: const Text('Add Expense'),
+            title: const Text('Enter your Email'),
             content: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextField(
                     onChanged: (value){
@@ -241,12 +248,12 @@ class _SignInState extends State<SignIn> {
                       hintText: 'Enter E-mail',
                       label: const Text('E-mail'),
                       enabledBorder: OutlineInputBorder(
-                          borderSide:  BorderSide(color: HexColor("#8a76ba")),
+                          borderSide:  const BorderSide(color: Color(0xFF8a76ba)),
                           borderRadius: BorderRadius.circular(10.0)
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              color: Colors.purple,
+                              color: Color(0xFF8a76ba),
                               width: 2.0
                           ),
                           borderRadius: BorderRadius.circular(10.0)
@@ -264,7 +271,7 @@ class _SignInState extends State<SignIn> {
                 },
                 child: const Text('Cancel',style: TextStyle(color: Colors.white),),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.redAccent,
                 ),
               ),
               ElevatedButton(
@@ -272,7 +279,7 @@ class _SignInState extends State<SignIn> {
                   setState(() {
                     if(email == ""){
                       Fluttertoast.showToast(
-                          msg: "Plz Enter Email",
+                          msg: "Please Enter Email",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 3,
@@ -290,7 +297,7 @@ class _SignInState extends State<SignIn> {
                 },
                 child: Text('Submit',style: TextStyle(color: Colors.white),),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.green,
                 ),
               ),
             ],

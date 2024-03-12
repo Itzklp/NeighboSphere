@@ -175,14 +175,14 @@ class MaintenanceList extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
         final docs = snapshot.data!.docs;
         if (docs.isEmpty) {
-          return Center(child: Text('You have not made any Maintenance Request.'));
+          return const Center(child: Text('You have not made any Maintenance Request.'));
         }
         return ListView.builder(
           itemCount: docs.length,
@@ -190,28 +190,75 @@ class MaintenanceList extends StatelessWidget {
             final Map<String, dynamic> data =
             docs[index].data() as Map<String, dynamic>;
             return Card(
+              elevation: 5.0,
+              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               child: ListTile(
-                title: Text('Request ID: ${docs[index].id}'),
+                contentPadding: EdgeInsets.all(16.0),
+                title: Text(
+                  'Request ID: ${docs[index].id}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Request Type: ${data['type']}'),
-                    Text('Request Details: ${data['description']}'),
-                    Text('House No: ${data['house_no']}'),
-                    Text('Member Id: ${data['member_id']}'),
-                    Text('Date: ${data['date']}'),
-                    Text('Status: ${data['status']}'),
+                    const SizedBox(height: 8.0),
+                    Text(
+                      'Request Type: ${data['type']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Request Details: ${data['description']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'House No: ${data['house_no']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Member Id: ${data['member_id']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Date: ${data['date']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Status: ${data['status']}',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                    ),
                   ],
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  style: IconButton.styleFrom(
-                    foregroundColor: Colors.red,
-                  ),
+                  icon: const Icon(Icons.delete),
+                  color: Colors.red,
                   onPressed: () => _deleteDocument(docs[index].id),
                 ),
               ),
             );
+
           },
         );
       },

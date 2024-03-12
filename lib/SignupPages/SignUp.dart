@@ -54,20 +54,22 @@ class _SignUpState extends State<SignUp> {
       print('Current user is null');
     }
   }
+
+  bool obscureText_1 = true;
+  bool obscureText_2 = true;
   @override
   Widget build(BuildContext context) {
-    bool obscureText = true;
     String fname="",lname="",gender="",email="",cpassword="",password="",contact="",society_name="";
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20),
             Image.asset(
               'assets/house2.png', // Replace 'your_image.png' with your image path
               height: 150, // Adjust height as needed
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             // Welcome Text
             const Text(
               "Welcome to Neighbosphere!!",
@@ -78,13 +80,16 @@ class _SignUpState extends State<SignUp> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            Text(
-              "Sign up now to connect with neighbors, manage your society, and discover local events. Let's build a vibrant community together!",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22.0),
+              child: Text(
+                "Sign up now to connect with neighbors, manage your society, and discover local events. Let's build a vibrant community together!",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             Container(
               padding: EdgeInsets.all(30.0),
@@ -106,7 +111,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -128,7 +133,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -150,7 +155,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -173,7 +178,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -195,7 +200,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colors.purple,
+                                color: Color(0xFF8a76ba),
                                 width: 2.0
                             ),
                             borderRadius: BorderRadius.circular(10.0)
@@ -207,7 +212,7 @@ class _SignUpState extends State<SignUp> {
                       onChanged: (value) {
                         password = value;
                       },
-                      obscureText: true, // This property hides the entered text
+                      obscureText: obscureText_1, // This property hides the entered text
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock_rounded, color: Colors.black), // Changed to lock icon
                         hintText: 'Password',
@@ -218,18 +223,20 @@ class _SignUpState extends State<SignUp> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                            color: Colors.purple,
+                            color: Color(0xFF8a76ba),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         // Added suffix icon for toggling visibility
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.visibility), // Eye icon
+                          icon: Icon(
+                            obscureText_1 ? Icons.visibility : Icons.visibility_off,
+                          ), // Eye icon
                           onPressed: () {
                             setState(() {
                               // Toggle the obscureText property
-                              obscureText = !obscureText;
+                              obscureText_1 = !obscureText_1;
                             });
                           },
                         ),
@@ -240,7 +247,7 @@ class _SignUpState extends State<SignUp> {
                       onChanged: (value) {
                         cpassword = value;
                       },
-                      obscureText: true, // This property hides the entered text
+                      obscureText: obscureText_2,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock_rounded, color: Colors.black), // Changed to lock icon
                         hintText: 'Confirm Password',
@@ -251,18 +258,20 @@ class _SignUpState extends State<SignUp> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                            color: Colors.purple,
+                            color: Color(0xFF8a76ba),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         // Added suffix icon for toggling visibility
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.visibility), // Eye icon
+                          icon: Icon(
+                            obscureText_2 ? Icons.visibility : Icons.visibility_off,
+                          ), // Eye icon
                           onPressed: () {
                             setState(() {
                               // Toggle the obscureText property
-                              obscureText = !obscureText;
+                              obscureText_2 = !obscureText_2;
                             });
                           },
                         ),
@@ -297,7 +306,7 @@ class _SignUpState extends State<SignUp> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
+                          backgroundColor: const Color(0xFF8a76ba),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                           )
@@ -305,7 +314,7 @@ class _SignUpState extends State<SignUp> {
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         child: const Text(
-                          'SIGNUP',
+                          'SIGN UP',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white
@@ -325,13 +334,13 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 15.0,),
+                    // const SizedBox(height: 10.0,),
                     ElevatedButton(
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterSociety()));
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
+                          backgroundColor: const Color(0xFF8a76ba),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)
                           )
@@ -339,7 +348,7 @@ class _SignUpState extends State<SignUp> {
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         child: const Text(
-                          'REGISTER YOUR SOCIETY',
+                          'REGISTER SOCIETY',
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.white
@@ -347,6 +356,22 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
+
+                    const SizedBox(height: 25.0,),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).popUntil(ModalRoute.withName('/root'));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                      },
+                      child: const Text(
+                        'Already have an account? Login here.',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF8a76ba)
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
               ),
