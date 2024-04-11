@@ -103,21 +103,35 @@ class _ManageHouseState extends State<ManageHouse> {
                 ),
               ),
               ElevatedButton(
-                onPressed: (){
-                  setState(() async {
-                    String id = UniqueRandomStringGenerator.generateUniqueString(15);
-                    await FirebaseFirestore.instance.collection("House").doc(id).set(
-                        {
-                          'id' : id,
-                          'house_no' : house_id,
-                          'member_id' : memberId,
-                          'ownership' : ownership,
-                          'society_id' : societyId
-                        });
-                    Navigator.of(context).pop();
-                  });
+                onPressed: () async {
+                  String id = UniqueRandomStringGenerator.generateUniqueString(15);
+                  Map<String, dynamic> houseData = {
+                    'id': id,
+                    'house_no': house_id,
+                    'member_id': memberId,
+                    'ownership': ownership,
+                    'society_id': societyId
+                  };
 
-                },
+                  try {
+                    // Add data to 'House' collection
+                    await FirebaseFirestore.instance.collection("House").doc(id).set(houseData);
+
+                    // Add additional fields for 'Funds' collection
+                    Map<String, dynamic> fundsData = {
+                      ...houseData,
+                      'date': DateTime.now(),
+                      'status': 'Pending',
+                      'amount': '10000'
+                    };
+                    await FirebaseFirestore.instance.collection("Funds").doc(id).set(fundsData);
+
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    print("Error: $e");
+                  }
+                }
+                ,
                 child: Text('Add'),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green

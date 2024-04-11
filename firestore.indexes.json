@@ -1,0 +1,10 @@
+[
+  {
+    "collectionGroup": "ExpectedVisitor",
+    "queryScope": "COLLECTION",
+    "fields": [
+      {"fieldPath": "society_id", "order": "ASCENDING"},
+      {"fieldPath": "date", "order": "ASCENDING"}
+    ]
+  }
+]

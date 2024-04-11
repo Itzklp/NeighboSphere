@@ -7,6 +7,7 @@ import 'package:neighbosphere/HomePages/MembersFunction/MaintainReq.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/ManageHouse.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/VisitorRecord.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/FeedbackPage.dart';
+import 'package:neighbosphere/HomePages/SecurityFunctions/AddVisitor.dart';
 
 import '../../SignupPages/SignIn.dart';
 
@@ -49,6 +50,13 @@ class UserHome extends StatelessWidget {
               onTap: (){
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ManageHouse(societyId: societyId,memberId: memberId,)));
+              },
+            ),
+            ListTile(
+              title: const Text('Add Visitor'),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddVisitor(memberId: memberId, societyId: societyId)));
               },
             ),
             ListTile(

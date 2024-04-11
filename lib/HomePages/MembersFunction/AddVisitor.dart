@@ -4,11 +4,10 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../IDGenerator/IDGenerator.dart';
 
-
 class AddVisitor extends StatefulWidget {
   final String? memberId;
   final String? societyId;
-  const AddVisitor({super.key,required this.memberId,required this.societyId});
+  const AddVisitor({super.key,required this.societyId,required this.memberId});
 
   @override
   State<AddVisitor> createState() => _AddVisitorState();
@@ -20,22 +19,22 @@ class _AddVisitorState extends State<AddVisitor> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor("#8a76ba"),
-        title: Text('Add Visitor'),
+        title: Text('Add Expected Visitor'),
       ),
-      body: VisitorSecList(memberId: widget.memberId,societyId: widget.societyId,),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: AddedList(memberId: widget.memberId,societyId: widget.societyId,),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showMyPopup(context,widget.societyId,widget.memberId);
-        },
-        backgroundColor: HexColor("#8a76ba"),
+        child: Icon(
+            Icons.add
+        ),
+        onPressed: _addVisitor(context,widget.societyId,widget.memberId),
+        backgroundColor: HexColor('#8a76ba'),
         foregroundColor: Colors.white,
-        child: const Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  void _showMyPopup(BuildContext context,String? societyId,String? memberId) {
+  _addVisitor(BuildContext context,String? societyId,String? memberId) {
     String name = '';
     String contact = '';
     String purpose = '';
@@ -154,7 +153,7 @@ class _AddVisitorState extends State<AddVisitor> {
                   setState(() async {
                     DateTime now = DateTime.now();
                     String id = UniqueRandomStringGenerator.generateUniqueString(15);
-                    await FirebaseFirestore.instance.collection("ExpectedVisitor").doc(id).set(
+                    await FirebaseFirestore.instance.collection("Visitor").doc(id).set(
                         {
                           'id' : id,
                           'house_no' : house_no,
@@ -180,19 +179,15 @@ class _AddVisitorState extends State<AddVisitor> {
   }
 }
 
-
-class VisitorSecList extends StatelessWidget {
+class AddedList extends StatelessWidget {
   final String? memberId;
   final String? societyId;
-  const VisitorSecList({super.key,required this.societyId,required this.memberId});
+  const AddedList({Key? key, required this.memberId, required this.societyId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('ExpectedVisitor')
-          .where('society_id', isEqualTo: societyId)
-          .snapshots(),
+    return FutureBuilder<List<String>>(
+      future: _getHouseIdsForMember(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -200,81 +195,115 @@ class VisitorSecList extends StatelessWidget {
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final docs = snapshot.data!.docs;
-        if (docs.isEmpty) {
-          return Center(child: Text('No Visitors'));
+        final houseIds = snapshot.data;
+        if (houseIds == null || houseIds.isEmpty) {
+          return Center(child: Text('No Visitor Data Found.'));
         }
-        return ListView.builder(
-          itemCount: docs.length,
-          itemBuilder: (context, index) {
-            final Map<String, dynamic> data =
-            docs[index].data() as Map<String, dynamic>;
-            return Card(
-              elevation: 5.0,
-              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(16.0),
-                title: Text(
-                  'Visitor ID: ${data['id']}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                  ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 8.0),
-                    Text(
-                      'Visitor Name: ${data['name']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'Visitor Contact: ${data['contact']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'Visited House: ${data['house_no']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'Purpose: ${data['purpose']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  color: Colors.red,
-                  onPressed: () => _deleteDocument(docs[index].id),
-                ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: houseIds.map((houseId) {
+            return Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('ExpectedVisitor')
+                    .where('society_id', isEqualTo: societyId)
+                    .where('house_id', isEqualTo: houseId)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  final docs = snapshot.data!.docs;
+                  if (docs.isEmpty) {
+                    return Center(child: Text('No visitors for this house.'));
+                  }
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      final Map<String, dynamic> data = docs[index].data() as Map<String, dynamic>;
+                      return Card(
+                        elevation: 5.0,
+                        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(16.0),
+                          title: Text(
+                            'Visitor ID: ${docs[index].id}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 8.0),
+                              Text(
+                                'Visitor Name: ${data['name']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Purpose: ${data['purpose']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Date: ${data['date']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'House Id: ${data['house_id']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Contact: ${data['contact']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+
+                    },
+                  );
+                },
               ),
             );
-
-          },
+          }).toList(),
         );
       },
     );
   }
-  void _deleteDocument(String id) {
+
+  Future<List<String>> _getHouseIdsForMember() async {
     try {
-      FirebaseFirestore.instance.collection('ExpectedVisitor').doc(id).delete();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('House')
+          .where('member_id', isEqualTo: memberId)
+          .get();
+      List<String> houseIds = querySnapshot.docs.map((doc) => doc['id'] as String).toList();
+      return houseIds;
     } catch (e) {
-      print("Error deleting document: $e");
+      print('Error getting house IDs for member: $e');
+      return [];
     }
   }
 }

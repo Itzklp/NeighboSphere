@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
             } else if (designation == 'Secretary') {
               return SecretaryHome(memberId: userId,societyId: _memberData?['society'],);
             } else if (designation == 'Treasurer') {
-              return TreasurerHome();
+              return TreasurerHome(memberId: userId,societyId: _memberData?['society'],);
             } else if (designation == 'Security') {
               return SecurityHome(memberId: userId,societyId: _memberData?['society'],);
             }

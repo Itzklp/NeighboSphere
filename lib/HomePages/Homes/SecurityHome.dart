@@ -8,6 +8,7 @@ import 'package:neighbosphere/HomePages/MembersFunction/ManageHouse.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/VisitorRecord.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/FeedbackPage.dart';
 import 'package:neighbosphere/HomePages/SecurityFunctions/AddVisitor.dart';
+import 'package:neighbosphere/HomePages/SecurityFunctions/AddedVisitor.dart';
 
 import '../../SignupPages/SignIn.dart';
 
@@ -39,6 +40,13 @@ class SecurityHome extends StatelessWidget {
               onTap: (){
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddVisitor(societyId: societyId,memberId: memberId,)));
+              },
+            ),
+            ListTile(
+              title: const Text('Expected Visitor'),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ExpectedVisitor(societyId: societyId,memberId: memberId,)));
               },
             ),
             ListTile(

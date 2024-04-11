@@ -1,13 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neighbosphere/HomePages/TreasurerFunctions/FundLog.dart';
+import 'package:neighbosphere/HomePages/TreasurerFunctions/Transactions.dart';
 
 import '../../SignupPages/SignIn.dart';
 
 
 class TreasurerHome extends StatelessWidget {
-  const TreasurerHome({super.key});
+  final String? memberId;
+  final String? societyId;
+  const TreasurerHome({super.key,required this.societyId,required this.memberId});
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +32,18 @@ class TreasurerHome extends StatelessWidget {
                 child: Text('Home')
             ),
             ListTile(
-              title: const Text('Item 1'),
-              onTap: (){},
+              title: const Text('Add Transaction'),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionLog(societyId: societyId, memberId: memberId)));
+              },
             ),
             ListTile(
-              title: const Text('Item 2'),
-              onTap: (){},
-            ),
-            ListTile(
-              title: const Text('Item 3'),
-              onTap: (){},
+              title: const Text('Funds Log'),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FundLog(societyId: societyId,memberId: memberId,)));
+              },
             ),
             ListTile(
               title: const Text('Sign Out'),

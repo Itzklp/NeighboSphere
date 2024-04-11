@@ -2,11 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class VisitorRecord extends StatelessWidget {
+import '../../IDGenerator/IDGenerator.dart';
+
+class VisitorRecord extends StatefulWidget {
   final String? memberId;
   final String? societyId;
   const VisitorRecord({super.key,required this.societyId,required this.memberId});
 
+  @override
+  State<VisitorRecord> createState() => _VisitorRecordState();
+}
+
+class _VisitorRecordState extends State<VisitorRecord> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,12 +21,12 @@ class VisitorRecord extends StatelessWidget {
         backgroundColor: HexColor("#8a76ba"),
         title: Text('Visitor\'s Record'),
       ),
-      body: VisitorList(memberId: memberId,societyId: societyId,),
+      body: VisitorList(memberId: widget.memberId,societyId: widget.societyId,),
     );
   }
+
+
 }
-
-
 class VisitorList extends StatelessWidget {
   final String? memberId;
   final String? societyId;

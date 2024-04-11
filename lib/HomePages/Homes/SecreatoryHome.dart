@@ -56,10 +56,6 @@ class SecretaryHome extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('Member Request'),
-              onTap: (){},
-            ),
-            ListTile(
               title: const Text('Sign Out'),
               onTap: () async{
                 try {

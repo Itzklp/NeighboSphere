@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neighbosphere/HomePages/AdminFunctions/AddSociety.dart';
 import 'package:neighbosphere/HomePages/AdminFunctions/ManageSociety.dart';
 import 'package:neighbosphere/SignupPages/SignIn.dart';
-
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
@@ -55,7 +53,6 @@ class _AdminHomeState extends State<AdminHome> {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
                 } catch (e) {
                   print("Error signing out: $e");
-                  // Handle sign-out errors here
                 }
               },
             ),
