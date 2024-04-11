@@ -27,7 +27,7 @@ class _HouseDataState extends State<HouseData> {
             children: [
               _buildFilterButton(context, 'Owned', 'Owned'),
               _buildFilterButton(context, 'Rented', 'Rented'),
-              _buildFilterButton(context, 'To be Rented', 'to_be_rented'),
+              _buildFilterButton(context, 'To be Rented', 'To be Rented'),
             ],
           ),
           Expanded(
