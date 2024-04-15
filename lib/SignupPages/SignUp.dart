@@ -60,6 +60,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     String fname="",lname="",gender="",email="",cpassword="",password="",contact="",society_name="";
+    String? societyId;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -186,26 +187,50 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     const SizedBox(height: 15.0,),
-                    TextField(
-                      onChanged: (value){
-                        society_name = value;
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.house, color: Colors.black),
-                        hintText: 'Enter the Society name',
-                        label: const Text('Society'),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide:  BorderSide(color: HexColor("#8a76ba")),
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color(0xFF8a76ba),
-                                width: 2.0
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance.collection('Society').snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        }
+
+                        List<DropdownMenuItem<String>> societyDropdownItems = [];
+                        final societies = snapshot.data!.docs;
+                        for (var society in societies) {
+                          String societyName = society['name']; // Assuming your society document has a field named 'name'
+                          String societyId = society.id;
+                          societyDropdownItems.add(
+                            DropdownMenuItem(
+                              child: Text(societyName),
+                              value: societyId,
                             ),
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                      ),
+                          );
+                        }
+
+                        return DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.house, color: Colors.black),
+                            hintText: 'Select Society',
+                            labelText: 'Society',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFF8a76ba)),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Color(0xFF8a76ba), width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          value: societyId,
+                          items: societyDropdownItems,
+                          onChanged: (value) {
+                            setState(() {
+                              societyId = value as String?;
+                              print(societyId);
+                            });
+                          },
+                        );
+                      },
                     ),
                     const SizedBox(height: 15.0,),
                     TextField(
@@ -282,7 +307,7 @@ class _SignUpState extends State<SignUp> {
                       onPressed: ()async{
                         setState(() async{
                           bool res = password == cpassword;
-                          if(!res && (password.isEmpty || fname.isEmpty || lname.isEmpty || email.isEmpty || contact.isEmpty || society_name.isEmpty || password.isEmpty)){
+                          if(!res && (password.isEmpty || fname.isEmpty || lname.isEmpty || email.isEmpty || contact.isEmpty || password.isEmpty)){
                             Fluttertoast.showToast(
                                 msg: "Either one of the field is empty or Passwords dont match",
                                 toastLength: Toast.LENGTH_SHORT,
@@ -297,7 +322,7 @@ class _SignUpState extends State<SignUp> {
                             await signUp(email, password);
                             User? user = FirebaseAuth.instance.currentUser;
                             if(user !=null){
-                              addData(fname, lname, email, contact, society_name, "Member");
+                              addData(fname, lname, email, contact, societyId!, "Member");
                             }
                             else{
                               print('Current user is null');

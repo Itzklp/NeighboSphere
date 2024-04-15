@@ -6,6 +6,7 @@ import 'package:neighbosphere/HomePages/SecretaryFunctions/FacilityManagement.da
 import 'package:neighbosphere/HomePages/SecretaryFunctions/HouseData.dart';
 import 'package:neighbosphere/HomePages/SecretaryFunctions/MemberList.dart';
 import '../../SignupPages/SignIn.dart';
+import '../SecretaryFunctions/ManageMaintainance.dart';
 
 
 class SecretaryHome extends StatelessWidget {
@@ -47,6 +48,13 @@ class SecretaryHome extends StatelessWidget {
             ListTile(
               title: const Text('Member Request'),
               onTap: (){},
+            ),
+            ListTile(
+              title: const Text('Manage Maintenance'),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MaintenanceRequestListPage(societyId: societyId,)));
+              },
             ),
             ListTile(
               title: const Text('Facility Management'),
