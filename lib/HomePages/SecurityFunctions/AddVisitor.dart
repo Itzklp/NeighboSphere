@@ -154,7 +154,7 @@ class _AddVisitorState extends State<AddVisitor> {
                   setState(() async {
                     DateTime now = DateTime.now();
                     String id = UniqueRandomStringGenerator.generateUniqueString(15);
-                    await FirebaseFirestore.instance.collection("ExpectedVisitor").doc(id).set(
+                    await FirebaseFirestore.instance.collection("Visitor").doc(id).set(
                         {
                           'id' : id,
                           'house_no' : house_no,
@@ -190,7 +190,7 @@ class VisitorSecList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection('ExpectedVisitor')
+          .collection('Visitor')
           .where('society_id', isEqualTo: societyId)
           .snapshots(),
       builder: (context, snapshot) {
@@ -272,7 +272,7 @@ class VisitorSecList extends StatelessWidget {
   }
   void _deleteDocument(String id) {
     try {
-      FirebaseFirestore.instance.collection('ExpectedVisitor').doc(id).delete();
+      FirebaseFirestore.instance.collection('Visitor').doc(id).delete();
     } catch (e) {
       print("Error deleting document: $e");
     }

@@ -21,7 +21,7 @@ class _FacilityManagementState extends State<FacilityManagement> {
         backgroundColor: HexColor("#8a76ba"),
         title: Text('Facility'),
       ),
-      body: FacilityList(memberId: widget.memberId,societyId: widget.memberId,),
+        body: FacilityList(societyId: widget.societyId, memberId: widget.memberId),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -113,11 +113,8 @@ class FacilityList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('Facility')
-          .where('society_id', isEqualTo: societyId)
-          .snapshots(),
+    return FutureBuilder<List<String>>(
+      future: _getHouseIdsForMember(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -125,47 +122,115 @@ class FacilityList extends StatelessWidget {
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final docs = snapshot.data!.docs;
-        if (docs.isEmpty) {
-          return Center(child: Text('You have no facility.'));
+        final houseIds = snapshot.data;
+        if (houseIds == null || houseIds.isEmpty) {
+          return Center(child: Text('No Visitor Data Found.'));
         }
-        print(docs);
-        return ListView.builder(
-          itemCount: docs.length,
-          itemBuilder: (context, index) {
-            final Map<String, dynamic> data =
-            docs[index].data() as Map<String, dynamic>;
-            return Card(
-              child: ListTile(
-                title: Text('Facility Id: ${data['id']}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Facility Description: ${data['description']}'),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  style: IconButton.styleFrom(
-                      foregroundColor: Colors.red
-                  ),
-                  onPressed: () => _deleteDocument(docs[index].id),
-                ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: houseIds.map((houseId) {
+            return Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('ExpectedVisitor')
+                    .where('society_id', isEqualTo: societyId)
+                    .where('house_id', isEqualTo: houseId)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  final docs = snapshot.data!.docs;
+                  if (docs.isEmpty) {
+                    return Center(child: Text('No visitors for this house.'));
+                  }
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      final Map<String, dynamic> data = docs[index].data() as Map<String, dynamic>;
+                      return Card(
+                        elevation: 5.0,
+                        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(16.0),
+                          title: Text(
+                            'Visitor ID: ${docs[index].id}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 8.0),
+                              Text(
+                                'Visitor Name: ${data['name']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Purpose: ${data['purpose']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Date: ${data['date']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'House Id: ${data['house_id']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Contact: ${data['contact']}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+
+                    },
+                  );
+                },
               ),
             );
-          },
+          }).toList(),
         );
       },
     );
   }
 
-  void _deleteDocument(String id) {
+  Future<List<String>> _getHouseIdsForMember() async {
     try {
-      FirebaseFirestore.instance.collection('Facility').doc(id).delete();
-      // Optional: Show a snackbar or message to indicate successful deletion
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('House')
+          .where('member_id', isEqualTo: memberId)
+          .get();
+      List<String> houseIds = querySnapshot.docs.map((doc) => doc['id'] as String).toList();
+      return houseIds;
     } catch (e) {
-      print("Error deleting document: $e");
-      // Handle delete errors here
+      print('Error getting house IDs for member: $e');
+      return [];
     }
   }
 }

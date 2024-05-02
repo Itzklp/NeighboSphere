@@ -53,7 +53,7 @@ class VisitorList extends StatelessWidget {
             return Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('Visitor')
+                    .collection('ExpectedVisitor')
                     .where('society_id', isEqualTo: societyId)
                     .where('house_id', isEqualTo: houseId)
                     .snapshots(),
