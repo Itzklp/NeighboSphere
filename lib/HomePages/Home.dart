@@ -6,6 +6,8 @@ import 'package:neighbosphere/HomePages/Homes/SecurityHome.dart';
 import 'package:neighbosphere/HomePages/Homes/TreasurerHome.dart';
 import 'package:neighbosphere/HomePages/Homes/UserHome.dart';
 import 'package:neighbosphere/HomePages/Homes/AdminHome.dart'; // Import AdminHome page
+import 'package:carousel_slider/carousel_slider.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
