@@ -260,12 +260,12 @@ class _SecretaryHomeState extends State<SecretaryHome> {
                     );
                   }).toList(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Card(
-                    margin: const EdgeInsets.only(top: 20, left: 16, right: 16),
+                    margin: EdgeInsets.only(top: 20, left: 16, right: 16),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.0),
                       child: Text(
                         'Welcome to NeighboSphere Secretary Portal. Just from swiping right, This platform helps to manage the society efficiently with features like member management, maintenance handling, and facility management.',
                         style: TextStyle(
@@ -297,10 +297,10 @@ class _SecretaryHomeState extends State<SecretaryHome> {
                     ],
                   ),
                 ),
-                Card(
-                  margin: const EdgeInsets.all(20.0),
+                const Card(
+                  margin: EdgeInsets.all(20.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Text(
                       '"No one is more cherished in this world than someone who lightens the burden of another."',
                       textAlign: TextAlign.center,

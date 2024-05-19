@@ -124,7 +124,7 @@ class FacilityList extends StatelessWidget {
         }
         final houseIds = snapshot.data;
         if (houseIds == null || houseIds.isEmpty) {
-          return Center(child: Text('No Visitor Data Found.'));
+          return Center(child: Text('No Facility Data Found.'));
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,7 +145,7 @@ class FacilityList extends StatelessWidget {
                   }
                   final docs = snapshot.data!.docs;
                   if (docs.isEmpty) {
-                    return Center(child: Text('No visitors for this house.'));
+                    return Center(child: Text('No Facility Data for this house.'));
                   }
                   return ListView.builder(
                     itemCount: docs.length,

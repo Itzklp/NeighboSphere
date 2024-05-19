@@ -22,13 +22,16 @@ class _HouseDataState extends State<HouseData> {
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildFilterButton(context, 'Owned', 'Owned'),
-              _buildFilterButton(context, 'Rented', 'Rented'),
-              _buildFilterButton(context, 'To be Rented', 'To be Rented'),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildFilterButton(context, 'Owned', 'Owned'),
+                _buildFilterButton(context, 'Rented', 'Rented'),
+                _buildFilterButton(context, 'To be Rented', 'To be Rented'),
+              ],
+            ),
           ),
           Expanded(
             child: HouseCatalogue(societyId: widget.societyId, filter: _filter),
@@ -40,21 +43,22 @@ class _HouseDataState extends State<HouseData> {
 
   Widget _buildFilterButton(BuildContext context, String label, String filter) {
     bool isSelected = _filter == filter;
-    return TextButton(
+    return ElevatedButton(
       onPressed: () {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Filtering by $label'),
-            duration: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
           ),
         );
         setState(() {
           _filter = isSelected ? null : filter;
         });
       },
-      style: TextButton.styleFrom(
-        foregroundColor: isSelected ? Colors.white : null, backgroundColor: isSelected ? Colors.black : null,
+      style: ElevatedButton.styleFrom(
+        foregroundColor: isSelected ? Colors.white : Colors.black, backgroundColor: isSelected ? Colors.black : Colors.grey[300],
+        textStyle: const TextStyle(fontWeight: FontWeight.bold),
       ),
       child: Text(label),
     );
@@ -82,14 +86,14 @@ class HouseCatalogue extends StatelessWidget {
       stream: query.snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final docs = snapshot.data!.docs;
+        final docs = snapshot.data?.docs ?? [];
         if (docs.isEmpty) {
-          return Center(child: Text('Society has no House'));
+          return const Center(child: Text('Society has no houses'));
         }
         return ListView.builder(
           itemCount: docs.length,
@@ -97,6 +101,7 @@ class HouseCatalogue extends StatelessWidget {
             final Map<String, dynamic> data =
             docs[index].data() as Map<String, dynamic>;
             return Card(
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: ListTile(
                 title: Text('House Id: ${data['id']}'),
                 subtitle: Column(

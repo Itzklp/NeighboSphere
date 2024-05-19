@@ -191,11 +191,11 @@ class _UserHomeState extends State<UserHome> {
                 );
               },
             ),
-            _buildDrawerItem(
-              icon: Icons.book_online,
-              text: 'Book Facility',
-              onTap: () {},
-            ),
+            // _buildDrawerItem(
+            //   icon: Icons.book_online,
+            //   text: 'Book Facility',
+            //   onTap: () {},
+            // ),
             _buildDrawerItem(
               icon: Icons.feedback,
               text: 'Feedback',

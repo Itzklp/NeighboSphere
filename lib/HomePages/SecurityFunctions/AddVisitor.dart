@@ -217,8 +217,9 @@ class VisitorSecList extends StatelessWidget {
               ),
               child: ListTile(
                 contentPadding: const EdgeInsets.all(16.0),
-                title: Text(
-                  'Visitor ID: ${data['id']}',
+                title:
+                Text(
+                  'Visitor Name: ${data['name']}',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
@@ -229,7 +230,7 @@ class VisitorSecList extends StatelessWidget {
                   children: [
                     const SizedBox(height: 8.0),
                     Text(
-                      'Visitor Name: ${data['name']}',
+                      'Visitor ID: ${data['id']}',
                       style: TextStyle(
                         color: Colors.grey[700],
                       ),

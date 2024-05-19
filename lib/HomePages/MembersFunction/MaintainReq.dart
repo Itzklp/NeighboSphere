@@ -1,18 +1,14 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-
 import '../../IDGenerator/IDGenerator.dart';
-
-
 
 class MaintainReq extends StatefulWidget {
   final String? memberId;
   final String? societyId;
-  const MaintainReq({super.key,required this.memberId,required this.societyId});
+  const MaintainReq({super.key, required this.memberId, required this.societyId});
 
   @override
   State<MaintainReq> createState() => _MaintainReqState();
@@ -26,11 +22,11 @@ class _MaintainReqState extends State<MaintainReq> {
         backgroundColor: HexColor("#8a76ba"),
         title: Text('Maintenance Request'),
       ),
-      body: MaintenanceList(societyId: widget.societyId,memberId: widget.memberId,),
+      body: MaintenanceList(societyId: widget.societyId, memberId: widget.memberId),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showMyPopup(context,widget.societyId,widget.memberId);
+          _showMyPopup(context, widget.societyId, widget.memberId);
         },
         backgroundColor: HexColor("#8a76ba"),
         foregroundColor: Colors.white,
@@ -38,7 +34,8 @@ class _MaintainReqState extends State<MaintainReq> {
       ),
     );
   }
-  void _showMyPopup(BuildContext context,String? societyId,String? memberId) {
+
+  void _showMyPopup(BuildContext context, String? societyId, String? memberId) {
     String type = '';
     String description = '';
     String house_no = '';
@@ -48,7 +45,7 @@ class _MaintainReqState extends State<MaintainReq> {
 
     showDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Add Maintenance Request'),
             content: Container(
@@ -56,7 +53,7 @@ class _MaintainReqState extends State<MaintainReq> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextField(
-                    onChanged: (value){
+                    onChanged: (value) {
                       house_no = value;
                     },
                     decoration: InputDecoration(
@@ -64,20 +61,15 @@ class _MaintainReqState extends State<MaintainReq> {
                       label: const Text('House No'),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: HexColor("#8a76ba")),
-                          borderRadius: BorderRadius.circular(10.0)
-                      ),
+                          borderRadius: BorderRadius.circular(10.0)),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: HexColor("#8a76ba"),
-                              width: 2.0
-                          ),
-                          borderRadius: BorderRadius.circular(10.0)
-                      ),
+                          borderSide: BorderSide(color: HexColor("#8a76ba"), width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0)),
                     ),
                   ),
-                  const SizedBox(height: 15.0,),
+                  const SizedBox(height: 15.0),
                   TextField(
-                    onChanged: (value){
+                    onChanged: (value) {
                       type = value;
                     },
                     decoration: InputDecoration(
@@ -85,20 +77,15 @@ class _MaintainReqState extends State<MaintainReq> {
                       label: const Text('Type'),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: HexColor("#8a76ba")),
-                          borderRadius: BorderRadius.circular(10.0)
-                      ),
+                          borderRadius: BorderRadius.circular(10.0)),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: HexColor("#8a76ba"),
-                              width: 2.0
-                          ),
-                          borderRadius: BorderRadius.circular(10.0)
-                      ),
+                          borderSide: BorderSide(color: HexColor("#8a76ba"), width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0)),
                     ),
                   ),
-                  const SizedBox(height: 15.0,),
+                  const SizedBox(height: 15.0),
                   TextField(
-                    onChanged: (value){
+                    onChanged: (value) {
                       description = value;
                     },
                     decoration: InputDecoration(
@@ -106,15 +93,10 @@ class _MaintainReqState extends State<MaintainReq> {
                       label: const Text('Description'),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: HexColor("#8a76ba")),
-                          borderRadius: BorderRadius.circular(10.0)
-                      ),
+                          borderRadius: BorderRadius.circular(10.0)),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: HexColor("#8a76ba"),
-                              width: 2.0
-                          ),
-                          borderRadius: BorderRadius.circular(10.0)
-                      ),
+                          borderSide: BorderSide(color: HexColor("#8a76ba"), width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0)),
                     ),
                   ),
                 ],
@@ -122,49 +104,47 @@ class _MaintainReqState extends State<MaintainReq> {
             ),
             actions: [
               ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.of(context).pop();
                 },
                 child: const Text('Cancel'),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               ),
               ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   setState(() async {
                     String id = UniqueRandomStringGenerator.generateUniqueString(15);
-                    await FirebaseFirestore.instance.collection("MaintenanceRequest").doc(id).set(
-                        {
-                          'id' : id,
-                          'house_no' : house_no,
-                          'member_id' : memberId,
-                          'type' : type,
-                          'society_id' : societyId,
-                          'description' : description,
-                          'status' : 'Not Read',
-                          'date' : formattedDate
-                        });
+                    await FirebaseFirestore.instance.collection("MaintenanceRequest").doc(id).set({
+                      'id': id,
+                      'house_no': house_no,
+                      'member_id': memberId,
+                      'type': type,
+                      'society_id': societyId,
+                      'description': description,
+                      'status': 'Not Read',
+                      'date': formattedDate
+                    });
                     Navigator.of(context).pop();
                   });
-
                 },
                 child: Text('Request'),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               ),
             ],
           );
-        }
-    );
+        });
   }
 }
 
 class MaintenanceList extends StatelessWidget {
   final String? memberId;
   final String? societyId;
-  const MaintenanceList({super.key,required this.societyId, this.memberId});
+  const MaintenanceList({super.key, required this.societyId, this.memberId});
+
+  Future<String> _getMemberName(String memberId) async {
+    DocumentSnapshot memberDoc = await FirebaseFirestore.instance.collection('Members').doc(memberId).get();
+    return memberDoc['fname'];
+  }
 
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -187,83 +167,93 @@ class MaintenanceList extends StatelessWidget {
         return ListView.builder(
           itemCount: docs.length,
           itemBuilder: (context, index) {
-            final Map<String, dynamic> data =
-            docs[index].data() as Map<String, dynamic>;
-            return Card(
-              elevation: 5.0,
-              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(16.0),
-                title: Text(
-                  'Request ID: ${docs[index].id}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
+            final Map<String, dynamic> data = docs[index].data() as Map<String, dynamic>;
+            return FutureBuilder(
+              future: _getMemberName(data['member_id']),
+              builder: (context, AsyncSnapshot<String> memberNameSnapshot) {
+                if (memberNameSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (memberNameSnapshot.hasError) {
+                  return Center(child: Text('Error: ${memberNameSnapshot.error}'));
+                }
+                return Card(
+                  elevation: 5.0,
+                  margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 8.0),
-                    Text(
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(16.0),
+                    title: Text(
                       'Request Type: ${data['type']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
                       ),
                     ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'Request Details: ${data['description']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'Request ID: ${docs[index].id}',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          'Request Details: ${data['description']}',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          'House No: ${data['house_no']}',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          'Member Name: ${memberNameSnapshot.data}',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          'Date: ${data['date']}',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          'Status: ${data['status']}',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'House No: ${data['house_no']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                      onPressed: () => _deleteDocument(docs[index].id),
                     ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'Member Id: ${data['member_id']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'Date: ${data['date']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      'Status: ${data['status']}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  color: Colors.red,
-                  onPressed: () => _deleteDocument(docs[index].id),
-                ),
-              ),
+                  ),
+                );
+              },
             );
-
           },
         );
       },
     );
   }
+
   void _deleteDocument(String id) {
     try {
       FirebaseFirestore.instance.collection('MaintenanceRequest').doc(id).delete();
