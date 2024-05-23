@@ -71,7 +71,7 @@ class MemberCatalogue extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('Members')
-          .where('society_id', isEqualTo: societyId)
+          .where('society', isEqualTo: societyId)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -130,8 +130,28 @@ class MemberCard extends StatelessWidget {
               Text('Designation: ${data['designation']}'),
             ],
           ),
+          trailing: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => _deleteMember(context, data['id']),
+          ),
         ),
       ),
     );
+  }
+
+  void _deleteMember(BuildContext context, String memberId) {
+    // Add logic here to delete the member with the given memberId from Firestore
+    // For example:
+    FirebaseFirestore.instance.collection('Members').doc(memberId).delete().then((value) {
+      // Member deleted successfully
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Member deleted successfully'),
+      ));
+    }).catchError((error) {
+      // Error occurred while deleting member
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error deleting member: $error'),
+      ));
+    });
   }
 }

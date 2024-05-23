@@ -10,6 +10,7 @@ import 'package:neighbosphere/HomePages/MembersFunction/ManageHouse.dart';
 import 'package:neighbosphere/HomePages/MembersFunction/VisitorRecord.dart';
 import 'package:neighbosphere/HomePages/SecurityFunctions/AddVisitor.dart';
 import '../../SignupPages/SignIn.dart';
+import 'package:neighbosphere/HomePages/MembersFunction/AddVisitorMember.dart';
 
 class UserHome extends StatefulWidget {
   final String? memberId;
@@ -155,7 +156,7 @@ class _UserHomeState extends State<UserHome> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddVisitor(
+                    builder: (context) => AddVisitorMember(
                       memberId: widget.memberId,
                       societyId: widget.societyId,
                     ),
